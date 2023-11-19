@@ -4,9 +4,15 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { GraphQLError } from 'graphql';
 import * as Joi from 'joi';
 import configuration from './config/configuration';
 
+type httpError = {
+  error: string;
+  message?: string;
+  statusCode: number;
+};
 
 @Module({
   imports: [
@@ -15,6 +21,36 @@ import configuration from './config/configuration';
       autoSchemaFile: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      includeStacktraceInErrorResponses: false,
+      autoTransformHttpErrors: true,
+      formatError: (formattedError) => {
+        // Expected error
+        if (formattedError instanceof GraphQLError) {
+          const httpError = formattedError.extensions
+            .originalError as httpError;
+
+          return {
+            code: httpError.error,
+            message: httpError.message,
+            statusCode: httpError.statusCode,
+          };
+        }
+
+        // Error filtered by Field Decorator
+        if (formattedError.extensions?.code === 'BAD_USER_INPUT') {
+          return {
+            code: formattedError.extensions?.code,
+            message: formattedError.message,
+            statusCode: 422,
+          };
+        }
+
+        // Unexpected Error
+        return {
+          code: formattedError.extensions?.code,
+          message: formattedError.message,
+        };
+      },
     }),
 
     ConfigModule.forRoot({
