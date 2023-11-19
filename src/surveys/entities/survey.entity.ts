@@ -1,7 +1,8 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, OneToMany, UpdateDateColumn } from 'typeorm';
 import { IsString } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
+import { Question } from './question.entity';
 
 @Entity()
 @ObjectType()
@@ -15,4 +16,9 @@ export class Survey extends CommonEntity {
   @Field((type) => Date)
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany((type) => Question, (question) => question.survey, {
+    cascade: ['remove'],
+  })
+  questions: Question[];
 }
