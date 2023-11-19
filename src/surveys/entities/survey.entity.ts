@@ -17,6 +17,7 @@ export class Survey extends CommonEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Field((type) => [Question], { nullable: true })
   @OneToMany((type) => Question, (question) => question.survey, {
     cascade: ['remove'],
   })

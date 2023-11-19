@@ -1,9 +1,12 @@
-import { Field, Int } from '@nestjs/graphql';
-import { Column, ManyToOne } from 'typeorm';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { IsString, IsInt, IsNumber } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { Question } from './question.entity';
 
+@Entity()
+@ObjectType()
+@InputType('choiceEntity', { isAbstract: true })
 export class Choice extends CommonEntity {
   @Field((type) => String)
   @Column()

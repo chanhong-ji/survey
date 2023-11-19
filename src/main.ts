@@ -6,7 +6,6 @@ import { AllExceptionsFilter } from './common/filter/allExceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   const port = app.get(ConfigService).get('port');
   app.useGlobalPipes(
     new ValidationPipe({
