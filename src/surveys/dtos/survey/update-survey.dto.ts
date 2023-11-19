@@ -7,7 +7,7 @@ import {
   PickType,
 } from '@nestjs/graphql';
 import { IsInt } from 'class-validator';
-import { Survey } from '../entities/survey.entity';
+import { Survey } from '../../entities/survey.entity';
 import { CoreOutput } from 'src/common/dtos/coreOutput.dto';
 
 @InputType()
@@ -22,6 +22,6 @@ export class UpdateSurveyInput extends PartialType(
 
 @ObjectType()
 export class UpdateSurveyOutput extends CoreOutput {
-  @Field((type) => Survey)
-  result: Survey;
+  @Field((type) => Survey, { nullable: true })
+  result?: Survey;
 }
