@@ -3,8 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { Survey } from './entities/survey.entity';
-import { UpdateSurveyInput } from './dtos/update-survey.dto';
-import { CreateSurveyInput } from './dtos/create-survey.dto';
+import { Question } from './entities/question.entity';
+import { UpdateSurveyInput } from './dtos/survey/update-survey.dto';
+import { CreateSurveyInput } from './dtos/survey/create-survey.dto';
+import { CreateQuestionInput } from './dtos/question/create-question.dto';
+import { UpdateQuestionInput } from './dtos/question/update-question.dto';
 
 @Injectable()
 export class SurveysService {
@@ -18,6 +21,7 @@ export class SurveysService {
       where: { id },
       relations: { questions: true },
       select: { questions: true },
+      order: { questions: { order: 'ASC' } },
     });
   }
 
@@ -43,6 +47,41 @@ export class SurveysService {
     data: Omit<UpdateSurveyInput, 'id'>,
   ): Promise<Survey> {
     return this.repo.save({ ...survey, ...data });
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.repo.delete(id);
+  }
+}
+
+@Injectable()
+export class QuestionsService {
+  constructor(
+    @InjectRepository(Question) private readonly repo: Repository<Question>,
+  ) {}
+
+  async findOneWithDetail(id: number): Promise<Question | null> {
+    return this.repo.findOne({
+      where: { id },
+      relations: { choices: true },
+    });
+  }
+
+  async findOneById(id: number): Promise<Question | null> {
+    return this.repo.findOne({ where: { id } });
+  }
+
+  async create(data: CreateQuestionInput): Promise<Question> {
+    return this.repo.save(
+      this.repo.create({ survey: { id: data.surveyId }, ...data }),
+    );
+  }
+
+  async update(
+    question: Question,
+    data: Omit<UpdateQuestionInput, 'id'>,
+  ): Promise<Question> {
+    return this.repo.save({ ...question, ...data });
   }
 
   async remove(id: number): Promise<void> {
