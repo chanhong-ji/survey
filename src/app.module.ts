@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { GraphQLError } from 'graphql';
 import * as Joi from 'joi';
+import { SurveysModule } from './surveys/surveys.module';
 import configuration from './config/configuration';
 
 type httpError = {
@@ -80,6 +81,8 @@ type httpError = {
       },
       inject: [ConfigService],
     }),
+
+    SurveysModule,
   ],
 })
 export class AppModule {}
