@@ -16,7 +16,7 @@ export class Choice extends CommonEntity {
   @Field((type) => Int, { nullable: true })
   @Column({ nullable: true })
   @IsInt()
-  order?: number;
+  order: number;
 
   @Field((type) => Number)
   @Column()

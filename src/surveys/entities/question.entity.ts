@@ -24,7 +24,7 @@ export class Question extends CommonEntity {
   @Field((type) => Int, { nullable: true })
   @Column({ nullable: true })
   @IsInt()
-  order?: number;
+  order: number;
 
   @Field((type) => [Choice], { nullable: true })
   @OneToMany((type) => Choice, (choice) => choice.question, {

@@ -1,7 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { QuestionsResolver, SurveysResolver } from './surveys.resolver';
-import { QuestionsService, SurveysService } from './surveys.service';
+import {
+  ChoicesResolver,
+  QuestionsResolver,
+  SurveysResolver,
+} from './surveys.resolver';
+import {
+  ChoicesService,
+  QuestionsService,
+  SurveysService,
+} from './surveys.service';
 import { Survey } from './entities/survey.entity';
 import { Question } from './entities/question.entity';
 import { Choice } from './entities/choice.entity';
@@ -13,6 +21,8 @@ import { Choice } from './entities/choice.entity';
     SurveysService,
     QuestionsResolver,
     QuestionsService,
+    ChoicesResolver,
+    ChoicesService,
   ],
 })
 export class SurveysModule {}
