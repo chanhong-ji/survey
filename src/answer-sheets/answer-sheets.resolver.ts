@@ -1,5 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { NotFoundException } from '@nestjs/common';
+import {
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
+import { QueryFailedError } from 'typeorm';
 import { AnswerSheet } from './entities/answerSheet.entity';
 import { AnswerSheetsService } from './answer-sheets.service';
 import {
@@ -30,7 +34,17 @@ export class AnswerSheetsResolver {
   ): Promise<CreateAnswerSheetOutput> {
     await this.findSurveyById(surveyId);
 
-    const answerSheet = await this.service.create(surveyId, answers);
+    let answerSheet;
+
+    answerSheet = await this.service
+      .create(surveyId, answers)
+      .catch((error) => {
+        if (error instanceof QueryFailedError) {
+          throw new UnprocessableEntityException('Foreign key constraints');
+        } else {
+          throw error;
+        }
+      });
 
     return { ok: answerSheet != null, result: answerSheet };
   }
