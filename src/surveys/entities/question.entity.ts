@@ -14,12 +14,15 @@ export class Question extends CommonEntity {
   @IsString()
   content: string;
 
-  @ManyToOne((type) => Survey)
-  survey: Survey;
+  @ManyToOne((type) => Survey, (survey) => survey.questions, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  survey?: Survey;
 
   @Field((type) => Int)
   @RelationId((question: Question) => question.survey)
-  surveyId: number;
+  surveyId?: number;
 
   @Field((type) => Int, { nullable: true })
   @Column({ nullable: true })
@@ -27,8 +30,6 @@ export class Question extends CommonEntity {
   order: number;
 
   @Field((type) => [Choice], { nullable: true })
-  @OneToMany((type) => Choice, (choice) => choice.question, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany((type) => Choice, (choice) => choice.question)
   choices: Choice[];
 }

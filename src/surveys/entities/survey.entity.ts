@@ -18,8 +18,6 @@ export class Survey extends CommonEntity {
   updatedAt: Date;
 
   @Field((type) => [Question], { nullable: true })
-  @OneToMany((type) => Question, (question) => question.survey, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany((type) => Question, (question) => question.survey)
   questions: Question[];
 }

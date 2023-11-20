@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Survey } from './entities/survey.entity';
 import { Question } from './entities/question.entity';
 import { Choice } from './entities/choice.entity';
@@ -22,8 +22,7 @@ export class SurveysService {
   async findOneWithDetail(id: number): Promise<Survey | null> {
     return this.repo.findOne({
       where: { id },
-      relations: { questions: true },
-      select: { questions: true },
+      relations: { questions: { choices: true } },
       order: { questions: { order: 'ASC' } },
     });
   }
@@ -42,6 +41,7 @@ export class SurveysService {
     return this.repo.find({
       take: pageSize,
       skip: (page - 1) * pageSize,
+      order: { createdAt: 'DESC' },
     });
   }
 
@@ -52,8 +52,8 @@ export class SurveysService {
     return this.repo.save({ ...survey, ...data });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.repo.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    return this.repo.delete(id);
   }
 }
 
@@ -88,8 +88,8 @@ export class QuestionsService {
     return this.repo.save({ ...question, ...data });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.repo.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    return this.repo.delete(id);
   }
 }
 
@@ -116,7 +116,7 @@ export class ChoicesService {
     return this.repo.save({ ...choice, ...data });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.repo.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    return this.repo.delete(id);
   }
 }

@@ -67,7 +67,7 @@ export class SurveysResolver {
 
     if (survey == null) throw new NotFoundException('Survey not found');
 
-    return { ok: true, result: survey };
+    return { ok: survey != null, result: survey };
   }
 
   @Query((returns) => GetSurveysOutput)
@@ -76,7 +76,7 @@ export class SurveysResolver {
   ): Promise<GetSurveysOutput> {
     const surveys = await this.service.findAll(page);
 
-    return { ok: true, result: surveys };
+    return { ok: surveys != null, result: surveys };
   }
 
   @Mutation((returns) => CreateSurveyOutput)
@@ -85,7 +85,7 @@ export class SurveysResolver {
   ): Promise<CreateSurveyOutput> {
     const survey = await this.service.create(input);
 
-    return { ok: true, result: survey };
+    return { ok: survey != null, result: survey };
   }
 
   @Mutation((returns) => UpdateSurveyOutput)
@@ -96,7 +96,7 @@ export class SurveysResolver {
 
     const updatedSurvey = await this.service.update(survey, data);
 
-    return { ok: true, result: updatedSurvey };
+    return { ok: updatedSurvey != null, result: updatedSurvey };
   }
 
   // internal-use-only function
@@ -105,8 +105,8 @@ export class SurveysResolver {
     @Args('input') { id }: RemoveSurveyInput,
   ): Promise<RemoveSurveyOutput> {
     await this.findOneById(id);
-    await this.service.remove(id);
-    return { ok: true };
+    const result = await this.service.remove(id);
+    return { ok: result.affected !== 0 };
   }
 
   async findOneById(id: number): Promise<Survey> {
@@ -135,7 +135,7 @@ export class QuestionsResolver {
 
     if (question == null) throw new NotFoundException('Question not found');
 
-    return { ok: true, result: question };
+    return { ok: question != null, result: question };
   }
 
   @Mutation((returns) => CreateQuestionOutput)
@@ -146,7 +146,7 @@ export class QuestionsResolver {
 
     const question = await this.service.create(input);
 
-    return { ok: true, result: question };
+    return { ok: question != null, result: question };
   }
 
   @Mutation((returns) => UpdateQuestionOutput)
@@ -157,7 +157,7 @@ export class QuestionsResolver {
 
     const updatedQuestion = await this.service.update(question, data);
 
-    return { ok: true, result: updatedQuestion };
+    return { ok: updatedQuestion != null, result: updatedQuestion };
   }
 
   @Mutation((returns) => RemoveQuestionOutput)
@@ -165,8 +165,8 @@ export class QuestionsResolver {
     @Args('input') { id }: RemoveQuestionInput,
   ): Promise<RemoveQuestionOutput> {
     await this.findOneById(id);
-    await this.service.remove(id);
-    return { ok: true };
+    const result = await this.service.remove(id);
+    return { ok: result.affected !== 0 };
   }
 
   // internal-use-only function
@@ -200,9 +200,9 @@ export class ChoicesResolver {
   async getChoice(
     @Args('input') input: GetChoiceInput,
   ): Promise<GetChoiceOutput> {
-    const chioce = await this.findOneById(input.id);
+    const choice = await this.findOneById(input.id);
 
-    return { ok: true, result: chioce };
+    return { ok: choice != null, result: choice };
   }
 
   @Mutation((returns) => CreateChoiceOutput)
@@ -213,7 +213,7 @@ export class ChoicesResolver {
 
     const choice = await this.service.create(input);
 
-    return { ok: true, result: choice };
+    return { ok: choice != null, result: choice };
   }
 
   @Mutation((returns) => UpdateChoiceOutput)
@@ -224,7 +224,7 @@ export class ChoicesResolver {
 
     const updatedChoice = await this.service.update(choice, data);
 
-    return { ok: true, result: updatedChoice };
+    return { ok: updatedChoice != null, result: updatedChoice };
   }
 
   @Mutation((returns) => RemoveChoiceOutput)
@@ -232,8 +232,8 @@ export class ChoicesResolver {
     @Args('input') { id }: RemoveChoiceInput,
   ): Promise<RemoveChoiceOutput> {
     await this.findOneById(id);
-    await this.service.remove(id);
-    return { ok: true };
+    const result = await this.service.remove(id);
+    return { ok: result.affected !== 0 };
   }
 
   // internal-use-only function

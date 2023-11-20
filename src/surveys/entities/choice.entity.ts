@@ -23,6 +23,8 @@ export class Choice extends CommonEntity {
   @IsNumber()
   score: number;
 
-  @ManyToOne((type) => Question, (question) => question.choices)
+  @ManyToOne((type) => Question, (question) => question.choices, {
+    onDelete: 'CASCADE',
+  })
   question: Question;
 }
