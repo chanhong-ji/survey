@@ -3,9 +3,10 @@ import {
   ArgumentsHost,
   HttpException,
   InternalServerErrorException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { TypeORMError } from 'typeorm';
+import { QueryFailedError, TypeORMError } from 'typeorm';
 
 @Catch()
 export class AllExceptionsFilter extends BaseExceptionFilter {
@@ -13,6 +14,9 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     switch (true) {
       case exception instanceof HttpException:
         throw exception;
+
+      case exception instanceof QueryFailedError:
+        throw new UnprocessableEntityException('DB Query Error');
 
       case exception instanceof TypeORMError:
         throw new InternalServerErrorException('Typeorm error');

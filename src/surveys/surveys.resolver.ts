@@ -99,7 +99,6 @@ export class SurveysResolver {
     return { ok: updatedSurvey != null, result: updatedSurvey };
   }
 
-  // internal-use-only function
   @Mutation((returns) => RemoveSurveyOutput)
   async removeSurvey(
     @Args('input') { id }: RemoveSurveyInput,
@@ -109,6 +108,7 @@ export class SurveysResolver {
     return { ok: result.affected !== 0 };
   }
 
+  // internal-use-only function
   async findOneById(id: number): Promise<Survey> {
     const survey = await this.service.findOneById(id);
 

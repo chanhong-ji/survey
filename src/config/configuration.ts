@@ -9,7 +9,10 @@ export default () => ({
   },
   constants: {
     surveys: {
-      pageSize: process.env.SURVEYS_PER_PAGE || 5,
+      pageSize: parseInt(process.env.SURVEYS_PER_PAGE) || 5,
+    },
+    answerSheets: {
+      pageSize: parseInt(process.env.ANSWER_SHEETS_PER_PAGE) || 10,
     },
   },
 });

@@ -7,6 +7,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { GraphQLError } from 'graphql';
 import * as Joi from 'joi';
 import { SurveysModule } from './surveys/surveys.module';
+import { AnswerSheetsModule } from './answer-sheets/answer-sheets.module';
 import configuration from './config/configuration';
 
 type httpError = {
@@ -81,8 +82,8 @@ type httpError = {
       },
       inject: [ConfigService],
     }),
-
     SurveysModule,
+    AnswerSheetsModule,
   ],
 })
 export class AppModule {}
