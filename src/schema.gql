@@ -1,0 +1,249 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Choice {
+  id: Int!
+  createdAt: DateTime!
+  content: String!
+  order: Int
+  score: Float!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Question {
+  id: Int!
+  createdAt: DateTime!
+  content: String!
+  surveyId: Int!
+  order: Int
+  choices: [Choice!]
+}
+
+type Survey {
+  id: Int!
+  createdAt: DateTime!
+  title: String!
+  updatedAt: DateTime!
+  questions: [Question!]
+}
+
+type GetSurveyOutput {
+  ok: Boolean!
+  result: Survey
+}
+
+type GetSurveysOutput {
+  ok: Boolean!
+  result: [Survey!]
+}
+
+type CreateSurveyOutput {
+  ok: Boolean!
+  result: Survey
+}
+
+type UpdateSurveyOutput {
+  ok: Boolean!
+  result: Survey
+}
+
+type RemoveSurveyOutput {
+  ok: Boolean!
+}
+
+type CreateQuestionOutput {
+  ok: Boolean!
+  result: Question
+}
+
+type GetQuestionOutput {
+  ok: Boolean!
+  result: Question
+}
+
+type UpdateQuestionOutput {
+  ok: Boolean!
+  result: Question
+}
+
+type RemoveQuestionOutput {
+  ok: Boolean!
+}
+
+type GetChoiceOutput {
+  ok: Boolean!
+  result: Choice
+}
+
+type CreateChoiceOutput {
+  ok: Boolean!
+  result: Choice
+}
+
+type UpdateChoiceOutput {
+  ok: Boolean!
+  result: Choice
+}
+
+type RemoveChoiceOutput {
+  ok: Boolean!
+}
+
+type Answer {
+  question: Question
+  choice: Choice
+  createdAt: DateTime!
+}
+
+type AnswerSheet {
+  id: Int!
+  createdAt: DateTime!
+  surveyId: Int
+  updatedAt: DateTime!
+  answers: [Answer!]
+  totalScore: Float
+}
+
+type CreateAnswerSheetOutput {
+  ok: Boolean!
+  result: AnswerSheet
+}
+
+type GetAnswerSheetOutput {
+  ok: Boolean!
+  result: AnswerSheet
+}
+
+type GetAnswerSheetsOutput {
+  ok: Boolean!
+  result: [AnswerSheet!]
+}
+
+type RemoveAnswerSheetOutput {
+  ok: Boolean!
+}
+
+type UpdateAnswerOutput {
+  ok: Boolean!
+  result: Answer
+}
+
+type Query {
+  getSurvey(input: GetSurveyInput!): GetSurveyOutput!
+  getSurveys(input: GetSurveysInput!): GetSurveysOutput!
+  getQuestion(input: GetQuestionInput!): GetQuestionOutput!
+  getChoice(input: GetChoiceInput!): GetChoiceOutput!
+  getAnswerSheet(input: GetAnswerSheetInput!): GetAnswerSheetOutput!
+  getAnswerSheets(input: GetAnswerSheetsInput!): GetAnswerSheetsOutput!
+}
+
+input GetSurveyInput {
+  id: Int!
+}
+
+input GetSurveysInput {
+  page: Int! = 1
+}
+
+input GetQuestionInput {
+  id: Int!
+}
+
+input GetChoiceInput {
+  id: Int!
+}
+
+input GetAnswerSheetInput {
+  id: Int!
+}
+
+input GetAnswerSheetsInput {
+  page: Int! = 1
+}
+
+type Mutation {
+  createSurvey(input: CreateSurveyInput!): CreateSurveyOutput!
+  updateSurvey(input: UpdateSurveyInput!): UpdateSurveyOutput!
+  removeSurvey(input: RemoveSurveyInput!): RemoveSurveyOutput!
+  createQuestion(input: CreateQuestionInput!): CreateQuestionOutput!
+  updateQuestion(input: UpdateQuestionInput!): UpdateQuestionOutput!
+  removeQuestion(input: RemoveQuestionInput!): RemoveQuestionOutput!
+  createChoice(input: CreateChoiceInput!): CreateChoiceOutput!
+  updateChoice(input: UpdateChoiceInput!): UpdateChoiceOutput!
+  removeChoice(input: RemoveChoiceInput!): RemoveChoiceOutput!
+  createAnswerSheet(input: CreateAnswerSheetInput!): CreateAnswerSheetOutput!
+  removeAnswerSheet(input: RemoveAnswerSheetInput!): RemoveAnswerSheetOutput!
+  updateAnswer(input: UpdateAnswerInput!): UpdateAnswerOutput!
+}
+
+input CreateSurveyInput {
+  title: String!
+}
+
+input UpdateSurveyInput {
+  title: String
+  id: Int!
+}
+
+input RemoveSurveyInput {
+  id: Int!
+}
+
+input CreateQuestionInput {
+  content: String!
+  order: Int
+  surveyId: Int!
+}
+
+input UpdateQuestionInput {
+  content: String
+  order: Int
+  id: Int!
+}
+
+input RemoveQuestionInput {
+  id: Int!
+}
+
+input CreateChoiceInput {
+  content: String!
+  order: Int
+  score: Float!
+  questionId: Int!
+}
+
+input UpdateChoiceInput {
+  content: String
+  order: Int
+  score: Float
+  id: Int!
+}
+
+input RemoveChoiceInput {
+  id: Int!
+}
+
+input CreateAnswerSheetInput {
+  surveyId: Int!
+  answers: [AnswerInput!]
+}
+
+input AnswerInput {
+  questionId: Int!
+  choiceId: Int!
+}
+
+input RemoveAnswerSheetInput {
+  id: Int!
+}
+
+input UpdateAnswerInput {
+  choiceId: Int!
+  answersheetId: Int!
+  questionId: Int!
+}

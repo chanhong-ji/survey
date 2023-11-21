@@ -69,4 +69,17 @@ export class AnswerSheetsService {
   async findSurveyById(id: number): Promise<Survey | null> {
     return this.surveysRepo.findOne({ where: { id } });
   }
+
+  async findAnswerByIds(
+    answersheetId: number,
+    questionId: number,
+  ): Promise<Answer | null> {
+    return this.answersRepo.findOne({
+      where: { answersheet_id: answersheetId, question_id: questionId },
+    });
+  }
+
+  async updateAnswer(answer: Answer, choiceId): Promise<Answer> {
+    return this.answersRepo.save({ ...answer, choice: { id: choiceId } });
+  }
 }

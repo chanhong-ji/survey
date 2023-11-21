@@ -109,7 +109,7 @@ export class SurveysResolver {
   }
 
   // internal-use-only function
-  async findOneById(id: number): Promise<Survey> {
+  private async findOneById(id: number): Promise<Survey> {
     const survey = await this.service.findOneById(id);
 
     if (survey == null) {
@@ -170,7 +170,7 @@ export class QuestionsResolver {
   }
 
   // internal-use-only function
-  async findOneById(id: number): Promise<Question> {
+  private async findOneById(id: number): Promise<Question> {
     const question = await this.service.findOneById(id);
 
     if (question == null) throw new NotFoundException('Question not found');
@@ -178,7 +178,7 @@ export class QuestionsResolver {
     return question;
   }
 
-  async findSurveyById(id: number): Promise<Survey> {
+  private async findSurveyById(id: number): Promise<Survey> {
     const survey = await this.surveysService.findOneById(id);
 
     if (survey == null) {
@@ -237,7 +237,7 @@ export class ChoicesResolver {
   }
 
   // internal-use-only function
-  async findOneById(id: number): Promise<Choice> {
+  private async findOneById(id: number): Promise<Choice> {
     const choice = await this.service.findOneById(id);
 
     if (choice == null) throw new NotFoundException('Choice not found');
@@ -245,7 +245,7 @@ export class ChoicesResolver {
     return choice;
   }
 
-  async findQuestionById(id: number): Promise<Question> {
+  private async findQuestionById(id: number): Promise<Question> {
     const question = await this.questionsService.findOneById(id);
 
     if (question == null) {

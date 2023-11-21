@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { AnswerSheet } from './entities/answerSheet.entity';
+import { Answer } from './entities/answer.entity';
 import { AnswerSheetsService } from './answer-sheets.service';
 import {
   CreateAnswerSheetInput,
@@ -23,6 +24,10 @@ import {
   RemoveAnswerSheetInput,
   RemoveAnswerSheetOutput,
 } from './dtos/answerSheet/remove-answersheet.dto';
+import {
+  UpdateAnswerInput,
+  UpdateAnswerOutput,
+} from './dtos/answer/update-answer.dto';
 
 @Resolver((of) => AnswerSheet)
 export class AnswerSheetsResolver {
@@ -89,8 +94,19 @@ export class AnswerSheetsResolver {
     return { ok: result.affected !== 0 };
   }
 
+  @Mutation((returns) => UpdateAnswerOutput)
+  async updateAnswer(
+    @Args('input') { answersheetId, questionId, choiceId }: UpdateAnswerInput,
+  ): Promise<UpdateAnswerOutput> {
+    const answer = await this.findAnswerByIds(answersheetId, questionId);
+
+    const updatedAnswer = await this.service.updateAnswer(answer, choiceId);
+
+    return { ok: updatedAnswer != null, result: updatedAnswer };
+  }
+
   // internal-use-only function
-  async findOneById(id: number): Promise<AnswerSheet> {
+  private async findOneById(id: number): Promise<AnswerSheet> {
     const answerSheet = await this.service.findOneById(id);
 
     if (answerSheet == null) {
@@ -100,7 +116,23 @@ export class AnswerSheetsResolver {
     return answerSheet;
   }
 
-  async findSurveyById(id: number): Promise<Survey> {
+  private async findAnswerByIds(
+    answersheetId: number,
+    questionId: number,
+  ): Promise<Answer> {
+    const answer = await this.service.findAnswerByIds(
+      answersheetId,
+      questionId,
+    );
+
+    if (answer == null) {
+      throw new NotFoundException('Answer not found');
+    }
+
+    return answer;
+  }
+
+  private async findSurveyById(id: number): Promise<Survey> {
     const survey = await this.service.findSurveyById(id);
 
     if (survey == null) {

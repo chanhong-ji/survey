@@ -3,12 +3,13 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { GraphQLError } from 'graphql';
 import * as Joi from 'joi';
 import { SurveysModule } from './surveys/surveys.module';
 import { AnswerSheetsModule } from './answer-sheets/answer-sheets.module';
 import configuration from './config/configuration';
+import { join } from 'path';
+// import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 type httpError = {
   error: string;
@@ -20,9 +21,9 @@ type httpError = {
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      playground: true,
+      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
       includeStacktraceInErrorResponses: false,
       autoTransformHttpErrors: true,
       formatError: (formattedError) => {
@@ -58,8 +59,9 @@ type httpError = {
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
-      envFilePath:
-        process.env.NODE_ENV === 'dev' ? ['.env.dev.local'] : ['.env'],
+      envFilePath: ['.env'],
+      // envFilePath:
+      //   process.env.NODE_ENV === 'dev' ? ['.env.dev.local'] : ['.env'],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string().valid('dev', 'prod', 'test').default('dev'),
       }),

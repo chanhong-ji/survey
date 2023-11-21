@@ -1,11 +1,10 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  RelationId,
 } from 'typeorm';
 import { AnswerSheet } from './answerSheet.entity';
 import { Question } from 'src/surveys/entities/question.entity';
@@ -30,17 +29,13 @@ export class Answer {
   @ManyToOne((type) => Question, {
     onDelete: 'CASCADE',
   })
-  @Field((type) => Question)
+  @Field((type) => Question, { nullable: true })
   @JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
   question: Question;
 
   @ManyToOne((type) => Choice, { onDelete: 'CASCADE' })
   @Field((type) => Choice, { nullable: true })
   choice: Choice;
-
-  @RelationId((answer: Answer) => answer.choice)
-  @Field((type) => Int)
-  choiceId: number;
 
   @CreateDateColumn()
   @Field((type) => Date)
