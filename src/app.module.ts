@@ -40,7 +40,10 @@ type httpError = {
         }
 
         // Error filtered by Field Decorator
-        if (formattedError.extensions?.code === 'BAD_USER_INPUT') {
+        if (
+          formattedError.extensions?.code === 'BAD_USER_INPUT' ||
+          formattedError.extensions?.code === 'GRAPHQL_VALIDATION_FAILED'
+        ) {
           return {
             code: formattedError.extensions?.code,
             message: formattedError.message,

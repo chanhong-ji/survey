@@ -164,6 +164,7 @@ input GetAnswerSheetInput {
 
 input GetAnswerSheetsInput {
   page: Int! = 1
+  surveyId: Int!
 }
 
 type Mutation {
