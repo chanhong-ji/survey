@@ -48,7 +48,6 @@ $ npm run start
 
 ### Playground
 
-
 브라우저에서 Graphql Playground 실행
 
 ```
@@ -58,11 +57,13 @@ http://localhost:4000/graphql
 ## Features
 
 ### ⭐ Model
+
 1. Survey
 2. Question
 3. Choice
 4. AnswerSheet
 5. Answer
+
 ```text
 Survey - Question : One-To-Many
 
@@ -159,8 +160,10 @@ src
 │
 ├─ answer-sheets
 │  ├─ answer-sheets.module.ts
-│  ├─ answer-sheets.resolver.ts
-│  ├─ answer-sheets.service.ts
+│  ├─ resolvers
+│  │  └─ answer-sheets.resolver.ts
+│  ├─ services
+│  │  └─ answer-sheets.service.ts
 │  ├─ dtos
 │  │  ├─ answer
 │  │  │  ├─ create-answer.dto.ts
@@ -179,8 +182,14 @@ src
 │
 └─ surveys
    ├─ surveys.module.ts
-   ├─ surveys.resolver.ts
-   ├─ surveys.service.ts
+   ├─ resolvers
+   │  ├─ choices.resolver.ts
+   │  ├─ questions.resolver.ts
+   │  └─ surveys.resolver.ts
+   ├─ services
+   │  ├─ choices.service.ts
+   │  ├─ questions.service.ts
+   │  └─ surveys.service.ts
    ├─ dtos
    │  ├─ choice
    │  │  ├─ create-choice.dto.ts
