@@ -58,7 +58,11 @@ http://localhost:4000/graphql
 ## Features
 
 ### ⭐ Model
-
+1. Survey
+2. Question
+3. Choice
+4. AnswerSheet
+5. Answer
 ```text
 Survey - Question : One-To-Many
 
