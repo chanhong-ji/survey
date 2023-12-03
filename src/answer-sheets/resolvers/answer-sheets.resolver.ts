@@ -4,30 +4,30 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
-import { AnswerSheet } from './entities/answerSheet.entity';
-import { Answer } from './entities/answer.entity';
-import { AnswerSheetsService } from './answer-sheets.service';
+import { AnswerSheet } from '../entities/answerSheet.entity';
+import { Answer } from '../entities/answer.entity';
+import { AnswerSheetsService } from '../services/answer-sheets.service';
 import {
   CreateAnswerSheetInput,
   CreateAnswerSheetOutput,
-} from './dtos/answerSheet/create-answersheet.dto';
+} from '../dtos/answerSheet/create-answersheet.dto';
 import {
   GetAnswerSheetInput,
   GetAnswerSheetOutput,
-} from './dtos/answerSheet/get-answersheet.dto';
+} from '../dtos/answerSheet/get-answersheet.dto';
 import {
   GetAnswerSheetsInput,
   GetAnswerSheetsOutput,
-} from './dtos/answerSheet/get-answersheets.dto';
+} from '../dtos/answerSheet/get-answersheets.dto';
 import { Survey } from 'src/surveys/entities/survey.entity';
 import {
   RemoveAnswerSheetInput,
   RemoveAnswerSheetOutput,
-} from './dtos/answerSheet/remove-answersheet.dto';
+} from '../dtos/answerSheet/remove-answersheet.dto';
 import {
   UpdateAnswerInput,
   UpdateAnswerOutput,
-} from './dtos/answer/update-answer.dto';
+} from '../dtos/answer/update-answer.dto';
 
 @Resolver((of) => AnswerSheet)
 export class AnswerSheetsResolver {

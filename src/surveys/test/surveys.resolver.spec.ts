@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SurveysController } from '../surveys.resolver';
+import { SurveysController } from '../resolvers/surveys.resolver';
 
 describe('SurveysController', () => {
   let controller: SurveysController;

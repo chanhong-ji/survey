@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { Survey } from 'src/surveys/entities/survey.entity';
-import { AnswerSheet } from './entities/answerSheet.entity';
-import { AnswerInput } from './dtos/answerSheet/create-answersheet.dto';
-import { Answer } from './entities/answer.entity';
+import { AnswerSheet } from '../entities/answerSheet.entity';
+import { AnswerInput } from '../dtos/answerSheet/create-answersheet.dto';
+import { Answer } from '../entities/answer.entity';
 
 @Injectable()
 export class AnswerSheetsService {
